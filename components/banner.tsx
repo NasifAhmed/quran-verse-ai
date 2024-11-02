@@ -6,7 +6,7 @@ export default function Banner() {
         <>
             <div className="grid gap-10 mb-5">
                 <div className="flex flex-col items-center justify-center">
-                    <TextSearch size={64} />
+                    <TextSearch className="text-primary" size={64} />
                     <h1 className="font-bold text-3xl lg:text-5xl md:text-4xl text-center">
                         Quran Verse
                         <br />

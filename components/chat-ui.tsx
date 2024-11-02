@@ -161,7 +161,7 @@ export default function ChatUI({
             {data && (
                 <div className="w-full">
                     <div className="my-2 flex items-center justify-start gap-2">
-                        <List className="inline" />
+                        <List className="inline text-primary" />
                         <h2 className="font-medium text-xl ">Search Results</h2>
                     </div>
                     <Separator />
