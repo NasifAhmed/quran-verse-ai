@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 
@@ -22,8 +23,15 @@ export default function RootLayout({
     return (
         <html lang="en" className="light">
             <body className={`${roboto.className} antialiased bg-background`}>
-                {children}
-                <Analytics />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                    <Analytics />
+                </ThemeProvider>
             </body>
         </html>
     );
