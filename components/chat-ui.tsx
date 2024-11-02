@@ -2,12 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import { QueryClient, useQuery } from "@tanstack/react-query";
+import { List, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import VerseCard from "./verse-card";
-import { Separator } from "./ui/separator";
 
 export default function ChatUI({
     className,
@@ -30,7 +31,6 @@ export default function ChatUI({
     const badges_data = [
         "I am depressed",
         "I don't believe in God",
-        "I am not sure about slavery being ok",
         "Jesus died on the cross",
         "A story about a group who slept for long time",
     ];
@@ -63,15 +63,10 @@ export default function ChatUI({
     return (
         <div
             className={cn(
-                "flex flex-col justify-around items-center max-w-3xl gap-10",
+                "flex flex-col justify-around items-center gap-10 w-full",
                 className
             )}
         >
-            <h1 className="font-bold text-4xl">Quran Verse AI</h1>
-            <h2 className="font-medium text-lg">
-                Deep contextual search for verses from Al-Quran with the power
-                of LLM
-            </h2>
             <div className="grid w-full gap-1.5">
                 {/* <Label htmlFor="message-2">Your Message</Label> */}
                 <Textarea
@@ -83,35 +78,31 @@ export default function ChatUI({
                     placeholder="Type here whats on your mind"
                     id="message-2"
                 />
-                <p className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                     {error ? (
                         <span className="text-red-500">
                             Error: {(error as Error).message}
                         </span>
                     ) : (
-                        <span>Write your prompt and press search</span>
+                        <div className="space-x-2 space-y-2 overflow-auto">
+                            {badges_data.map((data, index) => (
+                                <Badge
+                                    key={index}
+                                    variant={"outline"}
+                                    className="cursor-pointer text-xs md:text-sm font-medium p-2"
+                                    onClick={() => {
+                                        setValue(data);
+                                    }}
+                                >
+                                    {data}
+                                </Badge>
+                            ))}
+                        </div>
                     )}
-                </p>
-                <div className="space-x-2 space-y-2">
-                    <span className="text-sm font-medium underline">
-                        Select an example :{" "}
-                    </span>
-                    {badges_data.map((data, index) => (
-                        <Badge
-                            key={index}
-                            variant={"outline"}
-                            className="cursor-pointer"
-                            onClick={() => {
-                                setValue(data);
-                            }}
-                        >
-                            {data}
-                        </Badge>
-                    ))}
                 </div>
                 <Button
                     onClick={() => refetch()}
-                    className="mt-5"
+                    className="mt-5 py-5 text-lg"
                     disabled={isFetching}
                 >
                     {isFetching ? (
@@ -133,7 +124,10 @@ export default function ChatUI({
                             {"Loading"}
                         </>
                     ) : (
-                        "Search"
+                        <>
+                            <Search />
+                            {" Search"}
+                        </>
                     )}
                 </Button>
                 {data && (
@@ -145,19 +139,22 @@ export default function ChatUI({
                             });
                             setValue("");
                         }}
-                        className="mt-2"
+                        className="mt-2 py-5 text-lg"
                         variant={"destructive"}
                     >
                         Reset
                     </Button>
                 )}
-                {error && (
-                    <div className="mt-2 text-red-500">
-                        Error: {(error as Error).message}
-                    </div>
-                )}
             </div>
-            <Separator orientation="horizontal"></Separator>
+            {data && (
+                <div className="w-full">
+                    <div className="my-2 flex items-center justify-start gap-2">
+                        <List className="inline" />
+                        <h2 className="font-medium text-xl ">Search Results</h2>
+                    </div>
+                    <Separator />
+                </div>
+            )}
             <div>
                 {data &&
                     data?.verses.map((verse, index) => (
