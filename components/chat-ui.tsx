@@ -19,7 +19,7 @@ export default function ChatUI({
 }) {
     const [value, setValue] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const searchResultRef = useRef<HTMLButtonElement>(null);
+    const searchResultRef = useRef<HTMLDivElement>(null);
 
     // Automatically adjust height based on content
     useEffect(() => {
@@ -112,7 +112,7 @@ export default function ChatUI({
                     )}
                 </div>
                 <Button
-                    onClick={() => refetch()}
+                    onClick={() => value && refetch()}
                     className="mt-5 py-5 text-lg"
                     disabled={isFetching}
                 >
@@ -143,7 +143,6 @@ export default function ChatUI({
                 </Button>
                 {data && (
                     <Button
-                        ref={searchResultRef}
                         onClick={() => {
                             queryClient.resetQueries({
                                 queryKey: ["verseData"],
@@ -159,7 +158,7 @@ export default function ChatUI({
                 )}
             </div>
             {data && (
-                <div className="w-full">
+                <div ref={searchResultRef} className="w-full">
                     <div className="my-2 flex items-center justify-start gap-2">
                         <List className="inline text-primary" />
                         <h2 className="font-medium text-xl ">Search Results</h2>

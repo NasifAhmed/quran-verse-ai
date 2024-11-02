@@ -4,7 +4,7 @@ import { Separator } from "./ui/separator";
 export default function Banner() {
     return (
         <>
-            <div className="grid gap-10 mb-5">
+            <div className="grid gap-5 md:gap-10 mb-5">
                 <div className="flex flex-col items-center justify-center">
                     <TextSearch className="text-primary" size={64} />
                     <h1 className="font-bold text-3xl lg:text-5xl md:text-4xl text-center">
