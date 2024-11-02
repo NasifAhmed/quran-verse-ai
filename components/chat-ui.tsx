@@ -19,6 +19,7 @@ export default function ChatUI({
 }) {
     const [value, setValue] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const searchResultRef = useRef<HTMLButtonElement>(null);
 
     // Automatically adjust height based on content
     useEffect(() => {
@@ -59,6 +60,16 @@ export default function ChatUI({
         queryFn: postPrompt,
         enabled: false, // Disable automatic query on mount
     });
+
+    useEffect(() => {
+        // Scroll to the search results when results are updated
+        if (data) {
+            searchResultRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }, [data]);
 
     return (
         <div
@@ -132,6 +143,7 @@ export default function ChatUI({
                 </Button>
                 {data && (
                     <Button
+                        ref={searchResultRef}
                         onClick={() => {
                             queryClient.resetQueries({
                                 queryKey: ["verseData"],
